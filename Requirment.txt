@@ -1,0 +1,8 @@
+Here is a list of necessary libraries you need to import or install for the Sentiment Analysis of Product Reviews using Naive Bayes project:
+
+
+nltk
+scikit-learn
+pandas
+matplotlib
+seaborn
