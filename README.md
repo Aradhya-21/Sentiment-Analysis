@@ -58,5 +58,10 @@ seaborn – for better styled visualizations
 ✅ Optional but Recommended
 jupyter – for running notebooks interactively
 
+### 🤝 Contributing
+Contributions, issues and feature requests are welcome!
+
+### 📄 License
+This project is for educational purposes. Feel free to modify and use it as needed.
 
 
