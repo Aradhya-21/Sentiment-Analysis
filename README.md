@@ -9,7 +9,7 @@
 
 ## 📌 Project Description
 
-This project performs **Sentiment Analysis** on customer product reviews from platforms like **Amazon** or **Flipkart**. The goal is to determine whether a given review is **positive**, **negative**, or **neutral**.
+This project performs **Sentiment Analysis** on customer product reviews from platforms like **Amazon** or **Flipkart**. The goal is to determine whether a given review is **good** or **worst**.
 
 It uses **Natural Language Processing (NLP)** techniques to clean and process text data, and applies a **Naive Bayes Classifier** to categorize sentiments. The project serves as an introduction to **text classification**, **NLP**, and **machine learning for textual data**.
 
