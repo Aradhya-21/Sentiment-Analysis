@@ -1,13 +1,13 @@
 ## 📊 Sentiment Analysis of Product Reviews using Naive Bayes
 
-## 🧠 Technology
+### 🧠 Technology
 - **Domain:** Artificial Intelligence
 - **Level:** Beginner
 - **Tech Stack:** Python, Scikit-learn, NLTK, Pandas
 
 ---
 
-## 📌 Project Description
+### 📌 Project Description
 
 This project performs **Sentiment Analysis** on customer product reviews from platforms like **Amazon** or **Flipkart**. The goal is to determine whether a given review is **good** or **worst**.
 
@@ -15,7 +15,7 @@ It uses **Natural Language Processing (NLP)** techniques to clean and process te
 
 ---
 
-## 🔧 Features
+### 🔧 Features
 
 - Tokenization
 - Stopword Removal
@@ -30,7 +30,7 @@ It uses **Natural Language Processing (NLP)** techniques to clean and process te
   - Recall
 
 
-# Required Python Libraries
+### Required Python Libraries
 
 🔤 Natural Language Processing (NLP)
 nltk – for tokenization, stopword removal, and stemming
