@@ -28,3 +28,32 @@ It uses **Natural Language Processing (NLP)** techniques to clean and process te
   - Accuracy
   - Precision
   - Recall
+
+
+Required Python Libraries
+🔤 Natural Language Processing (NLP)
+nltk – for tokenization, stopword removal, and stemming
+
+
+📊 Machine Learning & Vectorization
+scikit-learn – for TF-IDF vectorization, Naive Bayes classifier, and evaluation metrics
+
+
+📁 Data Handling
+pandas – to load and manipulate the dataset
+
+bash
+
+📈 Visualization (optional but useful)
+matplotlib – for plotting graphs like confusion matrix
+
+
+seaborn – for better styled visualizations
+
+
+pip install seaborn
+✅ Optional but Recommended
+jupyter – for running notebooks interactively
+
+
+
