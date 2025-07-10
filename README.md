@@ -30,7 +30,7 @@ It uses **Natural Language Processing (NLP)** techniques to clean and process te
   - Recall
 
 
-#Required Python Libraries
+# Required Python Libraries
 
 🔤 Natural Language Processing (NLP)
 nltk – for tokenization, stopword removal, and stemming
