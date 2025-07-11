@@ -33,14 +33,20 @@ It uses **Natural Language Processing (NLP)** techniques to clean and process te
 ### Required Python Libraries
 
 🔤 Natural Language Processing (NLP)
+
+
 nltk – for tokenization, stopword removal, and stemming
 
 
 📊 Machine Learning & Vectorization
+
+
 scikit-learn – for TF-IDF vectorization, Naive Bayes classifier, and evaluation metrics
 
 
 📁 Data Handling
+
+
 pandas – to load and manipulate the dataset
 
 
@@ -56,6 +62,8 @@ seaborn – for better styled visualizations
 
 
 ✅ Optional but Recommended
+
+
 jupyter – for running notebooks interactively
 
 ### 🤝 Contributing
