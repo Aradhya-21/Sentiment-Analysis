@@ -1,4 +1,4 @@
-## 📊 Sentiment Analysis of Product Reviews using Naive Bayes
+## 📊 Sentiment Analysis of Product Reviews
 
 ### 🧠 Technology
 - **Domain:** Artificial Intelligence
