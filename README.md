@@ -11,7 +11,7 @@
 
 This project performs **Sentiment Analysis** on customer product reviews from platforms like **Amazon** or **Flipkart**. The goal is to determine whether a given review is **positive** or **negative**.
 
-It uses **Natural Language Processing (NLP)** techniques to clean and process text data, and applies a **Naive Bayes Classifier** to categorize sentiments. The project serves as an introduction to **text classification**, **NLP**, and **machine learning for textual data**.
+It uses **Natural Language Processing (NLP)** techniques to clean and process text data, and applies a **Logistic Regression** to categorize sentiments. The project serves as an introduction to **text classification**, **NLP**, and **machine learning for textual data**.
 
 ---
 
@@ -21,7 +21,7 @@ It uses **Natural Language Processing (NLP)** techniques to clean and process te
 - Stopword Removal
 - Stemming
 - TF-IDF Vectorization
-- Naive Bayes Model Training
+- Logistic Regression Model Training
 - Sentiment Prediction
 - Evaluation using:
   - Confusion Matrix
@@ -41,7 +41,7 @@ nltk – for tokenization, stopword removal, and stemming
 📊 Machine Learning & Vectorization
 
 
-scikit-learn – for TF-IDF vectorization, Naive Bayes classifier, and evaluation metrics
+scikit-learn – for TF-IDF vectorization, Logistic Regression, and evaluation metrics
 
 
 📁 Data Handling
