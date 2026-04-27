@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentimentAI | Premium Review Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f8fafc;
+            --success: #22c55e;
+            --error: #ef4444;
+            --neutral: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 2rem;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 1s ease;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        p.subtitle {
+            color: var(--neutral);
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            color: white;
+            font-size: 1.1rem;
+            resize: none;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.4);
+            filter: brightness(1.1);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #result {
+            margin-top: 2.5rem;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .verdict-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .verdict-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .verdict-text {
+            font-size: 2.5rem;
+            font-weight: 800;
+        }
+
+        .positive { color: var(--success); }
+        .negative { color: var(--error); }
+        .neutral { color: var(--neutral); }
+
+        .positive-bg { background: rgba(34, 197, 94, 0.1); color: var(--success); border: 1px solid rgba(34, 197, 94, 0.2); }
+        .negative-bg { background: rgba(239, 68, 68, 0.1); color: var(--error); border: 1px solid rgba(239, 68, 68, 0.2); }
+        .neutral-bg { background: rgba(148, 163, 184, 0.1); color: var(--neutral); border: 1px solid rgba(148, 163, 184, 0.2); }
+
+        .confidence-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .bar-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--neutral);
+        }
+
+        .bar-bg {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .loader {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Background blur circles */
+        .blur-circle {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .circle-1 { top: -100px; left: -100px; background: var(--primary); }
+        .circle-2 { bottom: -100px; right: -100px; background: var(--secondary); }
+    </style>
+</head>
+<body>
+    <div class="blur-circle circle-1"></div>
+    <div class="blur-circle circle-2"></div>
+
+    <div class="container">
+        <header>
+            <h1>SentimentAI</h1>
+            <p class="subtitle">Understand the emotion behind every word.</p>
+        </header>
+
+        <main class="card">
+            <textarea id="review-input" placeholder="Paste a product review here..."></textarea>
+            
+            <button id="analyze-btn">
+                <span id="btn-text">Analyze Sentiment</span>
+                <div class="loader" id="loader"></div>
+            </button>
+
+            <div id="result">
+                <div class="verdict-container">
+                    <div id="verdict-badge" class="verdict-badge">Sentiment</div>
+                    <div id="verdict-text" class="verdict-text">Neutral</div>
+                </div>
+
+                <div class="confidence-bars">
+                    <div class="bar-group">
+                        <div class="bar-info">
+                            <span>Positive</span>
+                            <span id="pos-val">0%</span>
+                        </div>
+                        <div class="bar-bg"><div id="pos-bar" class="bar-fill" style="background: var(--success); width: 0%"></div></div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar-info">
+                            <span>Negative</span>
+                            <span id="neg-val">0%</span>
+                        </div>
+                        <div class="bar-bg"><div id="neg-bar" class="bar-fill" style="background: var(--error); width: 0%"></div></div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar-info">
+                            <span>Neutral</span>
+                            <span id="neu-val">0%</span>
+                        </div>
+                        <div class="bar-bg"><div id="neu-bar" class="bar-fill" style="background: var(--neutral); width: 0%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const btnText = document.getElementById('btn-text');
+        const loader = document.getElementById('loader');
+        const resultSection = document.getElementById('result');
+        const input = document.getElementById('review-input');
+
+        analyzeBtn.addEventListener('click', async () => {
+            const review = input.value.trim();
+            if (!review) return;
+
+            // UI State: Loading
+            btnText.style.display = 'none';
+            loader.style.display = 'block';
+            analyzeBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ review })
+                });
+
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                // UI State: Success
+                displayResults(data);
+            } catch (err) {
+                alert('Error: ' + err.message);
+            } finally {
+                btnText.style.display = 'block';
+                loader.style.display = 'none';
+                analyzeBtn.disabled = false;
+            }
+        });
+
+        function displayResults(data) {
+            const verdict = data.verdict;
+            const conf = data.confidence;
+
+            const badge = document.getElementById('verdict-badge');
+            const text = document.getElementById('verdict-text');
+
+            // Reset classes
+            badge.className = 'verdict-badge';
+            text.className = 'verdict-text';
+
+            // Set content and color
+            badge.textContent = verdict + ' Sentiment';
+            badge.classList.add(verdict + '-bg');
+            text.textContent = verdict.toUpperCase();
+            text.classList.add(verdict);
+
+            // Update bars
+            updateBar('pos', conf.positive || 0);
+            updateBar('neg', conf.negative || 0);
+            updateBar('neu', conf.neutral || 0);
+
+            resultSection.style.display = 'block';
+        }
+
+        function updateBar(id, value) {
+            const valEl = document.getElementById(id + '-val');
+            const barEl = document.getElementById(id + '-bar');
+            const percent = (value * 100).toFixed(1) + '%';
+            
+            valEl.textContent = percent;
+            barEl.style.width = percent;
+        }
+    </script>
+</body>
+</html>
