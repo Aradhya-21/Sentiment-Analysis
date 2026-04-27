@@ -66,6 +66,30 @@ seaborn – for better styled visualizations
 
 jupyter – for running notebooks interactively
 
+---
+
+### 🚀 Deployment
+
+To deploy this project, follow these steps:
+
+#### 1. Local Run
+Install the dependencies and run the application:
+```bash
+pip install -r requirements.txt
+python app.py
+```
+
+#### 2. Deploy to Hugging Face Spaces (Recommended)
+1. Create a new **Space** on [Hugging Face](https://huggingface.co/new-space).
+2. Select **Gradio** as the SDK.
+3. Upload `app.py`, `requirements.txt`, and `reviews.csv` to the repository.
+4. The app will automatically build and deploy!
+
+#### 3. Deploy to Render/Streamlit
+This project is also compatible with other PaaS providers. Just ensure the `requirements.txt` is present and set the start command to `python app.py`.
+
+---
+
 ### 🤝 Contributing
 Contributions, issues and feature requests are welcome!
 
