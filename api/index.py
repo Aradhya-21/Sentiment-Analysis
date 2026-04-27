@@ -3,7 +3,7 @@ import joblib
 import os
 from preprocessing import clean_text
 
-app = Flask(__name__, static_folder='../public', static_url_path='')
+app = Flask(__name__, static_folder='..', static_url_path='')
 
 # Load model and tfidf once at startup
 MODEL_PATH = os.path.join(os.path.dirname(__file__), '..', 'model.joblib')
@@ -46,7 +46,7 @@ def load_resources():
 def index():
     return send_from_directory(app.static_folder, 'index.html')
 
-@app.route('/api/predict', methods=['POST'])
+@app.route('/predict', methods=['POST'])
 def predict():
     try:
         load_resources()
