@@ -46,7 +46,7 @@ def load_resources():
 def index():
     return send_from_directory(app.static_folder, 'index.html')
 
-@app.route('/predict', methods=['POST'])
+@app.route('/api/predict', methods=['POST'])
 def predict():
     try:
         load_resources()
