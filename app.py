@@ -29,7 +29,7 @@ def clean_text(text):
     text = text.translate(str.maketrans('', '', string.punctuation))
     words = text.split()
     words = [lemmatizer.lemmatize(word) for word in words if word not in custom_stopwords]
-    return 'join'(words) # Wait, there's a typo in the notebook code or I misread? It's ' '.join(words)
+    return ' '.join(words)
 
 # Re-checking the notebook's clean_text
 # 247:     return ' '.join(words)
@@ -71,19 +71,33 @@ def predict_sentiment(review):
         return "Please enter some text."
     cleaned = clean_text_fixed(review)
     vectorized = tfidf.transform([cleaned])
+    
+    # Get prediction and probabilities
     prediction = model.predict(vectorized)[0]
-    return f"Predicted Sentiment: {prediction}"
+    probabilities = model.predict_proba(vectorized)[0]
+    labels = model.classes_
+    
+    # Create a nice output string with probabilities
+    prob_dict = {label: float(prob) for label, prob in zip(labels, probabilities)}
+    
+    # Sort by probability for better display
+    sorted_probs = sorted(prob_dict.items(), key=lambda x: x[1], reverse=True)
+    results = "\n".join([f"{label.capitalize()}: {prob:.2%}" for label, prob in sorted_probs])
+    
+    return f"Verdict: {prediction.capitalize()}\n\nConfidence Scores:\n{results}"
 
 # Create Gradio Interface
 demo = gr.Interface(
     fn=predict_sentiment,
     inputs=gr.Textbox(lines=5, label="Enter Review", placeholder="Type your product review here..."),
-    outputs=gr.Textbox(label="Result"),
+    outputs=gr.Textbox(label="Analysis Results"),
     title="🌟 Sentiment Analysis App",
-    description="This app uses a Logistic Regression model to classify product reviews as Positive or Negative.",
+    description="This app classifies product reviews into **Positive**, **Negative**, or **Neutral** sentiments using a Logistic Regression model.",
     examples=[
         ["I absolutely love this product! It works perfectly."],
         ["The quality is terrible and it broke after one day."],
+        ["It's a decent product. Nothing special, but it works fine."],
+        ["The price is okay, but the delivery was slow."],
         ["Not what I expected, but it does the job."]
     ],
     theme="soft"
