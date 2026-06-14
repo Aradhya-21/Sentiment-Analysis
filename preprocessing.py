@@ -27,6 +27,11 @@ try:
 except LookupError:
     nltk.download('omw-1.4', download_dir=nltk_data_dir)
 
+try:
+    nltk.data.find('sentiment/vader_lexicon.zip')
+except LookupError:
+    nltk.download('vader_lexicon', download_dir=nltk_data_dir)
+
 # Initialize NLP tools
 lemmatizer = WordNetLemmatizer()
 try:
