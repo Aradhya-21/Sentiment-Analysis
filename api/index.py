@@ -58,16 +58,6 @@ def predict():
         import traceback
         return jsonify({'error': str(exc), 'traceback': traceback.format_exc()}), 500
 
-@app.route('/', defaults={'path': ''}, methods=['GET', 'POST'])
-@app.route('/<path:path>', methods=['GET', 'POST'])
-def catch_all(path):
-    # If the request is GET and we're just hitting the API root
-    return jsonify({
-        "message": "Flask catch-all",
-        "received_path": path,
-        "request_url": request.url,
-        "path_info": request.environ.get('PATH_INFO')
-    }), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
