@@ -27,6 +27,7 @@ def load_resources():
 # --- FIX BUG 3: Removed dead @app.route('/') — Vercel serves index.html statically ---
 
 @app.route('/api/predict', methods=['POST'])
+@app.route('/api', methods=['POST'])
 def predict():
     try:
         load_resources()

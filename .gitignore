@@ -5,5 +5,5 @@ __pycache__/
 .venv
 venv/
 ENV/
-nltk_data/
 .ipynb_checkpoints/
+

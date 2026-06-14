@@ -5,39 +5,17 @@ import os
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
-# Set NLTK data path for Vercel (writable /tmp directory)
-nltk_data_dir = os.path.join('/tmp', 'nltk_data')
-if not os.path.exists(nltk_data_dir):
-    os.makedirs(nltk_data_dir)
-nltk.data.path.append(nltk_data_dir)
-
-# Download NLTK resources to the specific path
-try:
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('stopwords', download_dir=nltk_data_dir)
-
-try:
-    nltk.data.find('corpora/wordnet')
-except LookupError:
-    nltk.download('wordnet', download_dir=nltk_data_dir)
-
-try:
-    nltk.data.find('corpora/omw-1.4')
-except LookupError:
-    nltk.download('omw-1.4', download_dir=nltk_data_dir)
-
-try:
-    nltk.data.find('sentiment/vader_lexicon.zip')
-except LookupError:
-    nltk.download('vader_lexicon', download_dir=nltk_data_dir)
+# Set NLTK data path to the local nltk_data folder inside the repository
+nltk_data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'nltk_data'))
+nltk.data.path.insert(0, nltk_data_dir)
 
 # Initialize NLP tools
 lemmatizer = WordNetLemmatizer()
 try:
     custom_stopwords = set(stopwords.words('english')) - {'not', 'no', 'nor', 'never'}
-except Exception:
-    custom_stopwords = set() # Fallback if stopwords fail to load
+except Exception as e:
+    print(f"Warning: Failed to load stopwords from {nltk_data_dir}: {e}")
+    custom_stopwords = set()
 
 def clean_text(text):
     """Clean and preprocess the input text."""
