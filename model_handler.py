@@ -47,7 +47,8 @@ _CUSTOM_LEXICON = {
 }
 
 # Singleton VADER instance with extended lexicon
-_sia = SentimentIntensityAnalyzer()
+# Point directly to the unzipped txt file because Vercel doesn't have the zip
+_sia = SentimentIntensityAnalyzer(lexicon_file="sentiment/vader_lexicon/vader_lexicon.txt")
 _sia.lexicon.update(_CUSTOM_LEXICON)
 
 
