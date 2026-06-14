@@ -78,12 +78,25 @@ def _vader_probs(text: str) -> dict:
 
 
 class SentimentModel:
-    def __init__(self, data_path='reviews.csv'):
+    def __init__(self, data_path='reviews.csv', model_dir=None):
         self.data_path = data_path
         self.model = None
         self.tfidf = None
         self.is_trained = False
+
+        if model_dir:
+            model_path = os.path.join(model_dir, 'model.joblib')
+            tfidf_path = os.path.join(model_dir, 'tfidf.joblib')
+            if os.path.exists(model_path) and os.path.exists(tfidf_path):
+                import joblib
+                self.model = joblib.load(model_path)
+                self.tfidf = joblib.load(tfidf_path)
+                self.is_trained = True
+                print(f"Loaded pre-trained model and tfidf from {model_dir}")
+                return
+
         self.train()
+
 
     def train(self):
         print("Loading data and training model...")

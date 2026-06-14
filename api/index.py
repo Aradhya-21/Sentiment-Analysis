@@ -7,32 +7,21 @@ import sys
 ROOT_DIR = os.path.join(os.path.dirname(__file__), '..')
 sys.path.insert(0, os.path.abspath(ROOT_DIR))
 
-from preprocessing import clean_text  # noqa: E402  (import after path fix)
+from model_handler import SentimentModel  # noqa: E402
 
 app = Flask(__name__)
 
-model = None
-tfidf = None
+model_handler = None
 
 
 def load_resources():
-    global model, tfidf
-    if model is not None and tfidf is not None:
+    global model_handler
+    if model_handler is not None:
         return  # already loaded
 
     # Vercel deploys all repo files to /var/task; __file__ is inside api/
     base = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    model_path = os.path.join(base, 'model.joblib')
-    tfidf_path  = os.path.join(base, 'tfidf.joblib')
-
-    if not os.path.exists(model_path):
-        raise FileNotFoundError(f"model.joblib not found at {model_path}")
-    if not os.path.exists(tfidf_path):
-        raise FileNotFoundError(f"tfidf.joblib not found at {tfidf_path}")
-
-    model = joblib.load(model_path)
-    tfidf = joblib.load(tfidf_path)
-    print(f"Loaded model from {model_path}")
+    model_handler = SentimentModel(model_dir=base)
 
 
 # --- FIX BUG 3: Removed dead @app.route('/') — Vercel serves index.html statically ---
@@ -47,14 +36,7 @@ def predict():
         if not review:
             return jsonify({'error': 'No review text provided'}), 400
 
-        cleaned    = clean_text(review)
-        vectorized = tfidf.transform([cleaned])
-
-        prediction   = model.predict(vectorized)[0]
-        probabilities = model.predict_proba(vectorized)[0]
-        labels       = model.classes_
-
-        prob_dict = {label: float(prob) for label, prob in zip(labels, probabilities)}
+        prediction, prob_dict = model_handler.predict(review)
 
         return jsonify({'verdict': prediction, 'confidence': prob_dict})
 
