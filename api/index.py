@@ -32,9 +32,12 @@ except Exception as e:
     startup_traceback = traceback.format_exc()
 
 
-@app.route('/api/predict', methods=['POST'])
-@app.route('/api', methods=['POST'])
-def predict():
+@app.route('/', defaults={'path': ''}, methods=['GET', 'POST'])
+@app.route('/<path:path>', methods=['GET', 'POST'])
+def predict(path):
+    if request.method == 'GET':
+        return jsonify({"message": "Sentiment API is running. Send a POST request with {'review': 'text'}."})
+
     if startup_error:
         return jsonify({
             'error': 'Startup import failed',
